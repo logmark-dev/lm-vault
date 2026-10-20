@@ -24,8 +24,8 @@ relative to the vault path and therefore begin with `logmark/`.
 ## 4.2 The `vault.md` manifest
 
 The vault's constitution is a single markdown file, `vault.md`, at the content
-root (`logmark/vault.md` in a wrapped vault). It is the anchor artifact - the
-file-as-brand pattern - and it is where a reader learns what the vault is for.
+root (`logmark/vault.md` in a wrapped vault). It is the anchor artifact, and
+it is where a reader learns what the vault is for.
 
 - A reader MUST prefer `vault.md`. For backward compatibility it MAY fall back to
   a legacy `constitution.md` at the same location if `vault.md` is absent.
@@ -38,7 +38,7 @@ structure is:
 | Element | Meaning |
 |---|---|
 | The first `#` H1 | The vault name |
-| The first paragraph after the H1 | The vault purpose |
+| The first paragraph after the H1 (or, when a heading comes first, the first paragraph of a `## Purpose` section) | The vault purpose |
 | `## Scope` | Scope prose with optional `INCLUDE:` / `EXCLUDE:` lines naming `+routes` and `#tags` |
 | `## How agents should help` | Guidance for agents operating on the vault |
 | `## Frozen vault-level decisions` | Standing decisions that hold vault-wide |
@@ -49,9 +49,10 @@ structure is:
 - **Leniency:** YAML frontmatter is lexically delimited by `---` fences and is
   not required to be valid YAML; a reader MUST NOT abort manifest parsing because
   frontmatter is malformed. The manifest body (name, purpose, sections) is still
-  extracted. Frontmatter fields (such as a `schema:` version declaration,
-  `SPEC-VERSION.md`) are advisory; the reference implementation does not read
-  them.
+  extracted. The `schema:` field declares the format version the vault targets
+  (`SPEC-VERSION.md`); a vault SHOULD carry it and a writer MUST preserve it.
+  Other frontmatter fields are advisory and MUST be preserved by a writer that
+  rewrites the manifest.
 - A manifest with none of the recognized elements parses to an empty
   constitution, which is valid.
 
@@ -133,7 +134,11 @@ the content root. The locations a conformant reader relies on:
 as a user route or a type folder. Additional files a tool keeps under `_system/`
 (indexes, caches, palettes) are implementation detail and outside this contract;
 a reader MUST tolerate their presence and MUST NOT treat unknown `_system/`
-entries as content.
+entries as content. This includes any version stamp an implementation keeps for
+its own on-disk structure (the reference implementation's is
+`_system/vault.json`): such a stamp is private to that implementation and is not
+the format version. The only format version declaration is the manifest's
+`schema:` field.
 
 ## 4.5 The route registry
 

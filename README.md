@@ -1,4 +1,4 @@
-# the vault.md spec - a light memory vault format
+# lm-vault - the light memory vault format
 
 A memory is a timestamped, typed, attributable markdown claim. This specification
 defines how such memories are written, named, routed, and attributed on disk, so
@@ -24,7 +24,7 @@ The key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT,
 RECOMMENDED, MAY, and OPTIONAL in this specification are to be interpreted as
 described in RFC 2119. In this document they are written in uppercase. A
 requirement stated as MUST is a conformance condition; a tool that violates one
-does not implement the vault.md format. SHOULD-level guidance may be departed
+does not implement the lm-vault format. SHOULD-level guidance may be departed
 from with reason; MAY-level items are genuinely optional.
 
 Where this text and the reference implementation disagree, the disagreement is a
@@ -35,11 +35,12 @@ but a compliant reader accepts) are marked "Leniency".
 
 ## Reference implementation
 
-LogMark is the reference implementation of this format. Its open kernel
-(parse, route, store, search, lint) reads and writes vaults exactly as
-described here, and the conformance fixtures in `fixtures/` are generated from
-that kernel's parser. Nothing in this document is specific to LogMark the
-product; the format is the contract, and any tool may read or write it.
+LogMark is the reference implementation of this format. Its open kernel,
+[logmark](https://github.com/logmark-dev/logmark), parses, routes, stores,
+searches, and lints vaults exactly as described here, and the conformance
+fixtures in `fixtures/` are generated from that kernel's parser. Nothing in
+this document is specific to LogMark the product; the format is the contract,
+and any tool may read or write it.
 
 ## What this document contains
 
@@ -70,9 +71,10 @@ This format uses frontmatter and trailer metadata as a provenance contract -
 who wrote a claim, from what source, when, and where it stands in its lifecycle.
 It does not convert prose into RDF triples or require a linked-data context
 file. Adjacent efforts that turn markdown vaults into linked-data graphs solve a
-different problem; a vault.md vault is legible to a person reading the raw
+different problem; an lm-vault vault is legible to a person reading the raw
 markdown first, and to machines second.
 
 ## Positioning
 
-They standardize how agents recall; we standardize what humans keep.
+Agent-memory systems standardize how agents recall; lm-vault standardizes what
+humans keep.

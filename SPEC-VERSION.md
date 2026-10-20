@@ -25,7 +25,7 @@ The version is `MAJOR.MINOR.PATCH`.
 
 ## Declaring a version
 
-A vault MAY declare the format version it targets in its `vault.md` manifest
+A vault SHOULD declare the format version it targets in its `vault.md` manifest
 frontmatter:
 
 ```yaml
@@ -34,12 +34,24 @@ schema: lm-vault/1.0.0
 ---
 ```
 
-This declaration is OPTIONAL. The reference implementation does not currently
-read or enforce it: an undeclared vault is treated as current, and a declared
-version is advisory. This is deliberate forward-lenient behavior - a vault
-written against a later MINOR version still opens. Tools that need strict version
-gating SHOULD read the declaration themselves; they MUST NOT refuse a vault
-merely because the declaration is absent.
+The version is how an amendment to this specification reaches a vault already on
+disk: without it a reader cannot tell which revision a vault was written against.
+
+- Tools that create a vault SHOULD write the declaration, naming the version they
+  implement.
+- A writer that rewrites the manifest MUST preserve an existing declaration
+  unless it is deliberately changing it. A tool that exposes the manifest as
+  parsed sections, without the frontmatter, MUST carry the existing frontmatter
+  over when it writes back.
+- A reader MUST NOT refuse a vault because the declaration is absent; an
+  undeclared vault is treated as the current version.
+- A reader encountering a later MINOR version opens the vault and degrades as
+  described above.
+
+The reference implementation writes the declaration at vault creation, keeps it
+across constitution updates, and surfaces the declared value to agents. When a
+vault declares a later MAJOR it still opens, but it warns at startup and in
+`get_constitution` rather than reading the vault silently.
 
 ## Compatibility promise
 

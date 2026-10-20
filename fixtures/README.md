@@ -2,7 +2,7 @@
 
 Four tiny sample vaults, each with an `expected.json` capturing exactly what the
 reference kernel parser emits when it reads that vault. A conformant reader of the
-vault.md format should reproduce the same result. These fixtures are meant to be
+lm-vault format should reproduce the same result. These fixtures are meant to be
 embedded in other implementations' test suites.
 
 ## The fixtures
