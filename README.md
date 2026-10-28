@@ -74,6 +74,25 @@ file. Adjacent efforts that turn markdown vaults into linked-data graphs solve a
 different problem; an lm-vault vault is legible to a person reading the raw
 markdown first, and to machines second.
 
+## Relationship to the Open Knowledge Format
+
+Google's Open Knowledge Format (OKF) v0.2 records how a markdown concept file
+was produced in a `generated: {by, at}` frontmatter field and lists
+confirmations in `verified: [{by, at}]`, deriving a trust tier (unverified,
+machine-confirmed, human-reviewed) from the latter. lm-vault's unit is a claim,
+not a concept file, and its attribution works the other way round:
+
+| OKF v0.2 | lm-vault | Note |
+|---|---|---|
+| `generated.by` | the entry's `source:` line (`agent:<name>`, `cli`, `telegram`, ...) | An entry with no `source:` line was written by a person. That is the attribution, by absence. |
+| `generated.at` | the entry timestamp (`## YYYY-MM-DD HH:MM`) | Set when the entry is written, never updated in place. |
+| `verified` | no counterpart | A human-authored claim is already in the human-reviewed tier; an agent-authored claim is superseded by a newer human entry, not re-stamped. |
+| trust tier | derived from the presence or absence of `source:` | Two tiers, not three: a person wrote it, or an agent did and said so. |
+
+A reader that understands OKF can therefore map an lm-vault entry to
+`generated.by` / `generated.at` without loss, and should treat the absence of
+`source:` as `generated.by: human`. The reverse mapping drops `verified`.
+
 ## Positioning
 
 Agent-memory systems standardize how agents recall; lm-vault standardizes what
